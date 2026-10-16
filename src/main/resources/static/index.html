@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- ===== Left menu ===== -->
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-mark">BMS</span>
+            <span class="brand-name">Bank Management System</span>
+        </div>
+        <nav id="menu" class="menu">
+            <button type="button" class="menu-btn active" data-target="accounts">All Accounts</button>
+            <button type="button" class="menu-btn" data-target="create">Create Account</button>
+            <button type="button" class="menu-btn" data-target="transact">Deposit / Withdraw</button>
+            <button type="button" class="menu-btn" data-target="balance">Check Balance</button>
+            <button type="button" class="menu-btn" data-target="search">Search Account</button>
+            <button type="button" class="menu-btn" data-target="history">Transaction History</button>
+            <button type="button" class="menu-btn" data-target="graphs">Graphs (Computer Graphics)</button>
+        </nav>
+    </aside>
+
+    <main class="content">
+
+        <!-- Message bar: shows success and error messages -->
+        <div id="message" class="message hidden" role="status"></div>
+
+        <!-- ===== 1. All Accounts ===== -->
+        <section id="accounts" class="panel active">
+            <div class="panel-head">
+                <h2>All Accounts</h2>
+                <button type="button" id="refreshBtn" class="btn btn-light">Refresh</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Account No.</th>
+                        <th>Holder</th>
+                        <th>Type</th>
+                        <th>Phone</th>
+                        <th class="num">Balance</th>
+                    </tr>
+                    </thead>
+                    <tbody id="accountsBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== 2. Create Account ===== -->
+        <section id="create" class="panel">
+            <h2>Create Account</h2>
+            <form id="createForm" class="form" novalidate>
+                <label for="holderName">Account holder name</label>
+                <input type="text" id="holderName" maxlength="50" placeholder="e.g. Amit Patil">
+
+                <label for="email">Email</label>
+                <input type="email" id="email" maxlength="100" placeholder="e.g. amit@example.com">
+
+                <label for="phone">Phone number</label>
+                <input type="text" id="phone" maxlength="10" placeholder="10 digit mobile number">
+
+                <label for="accountType">Account type</label>
+                <select id="accountType">
+                    <option value="SAVINGS">Savings (min. balance Rs. 500, 4% interest)</option>
+                    <option value="CURRENT">Current (overdraft up to Rs. 5000)</option>
+                </select>
+
+                <label for="initialDeposit">Opening deposit (Rs.)</label>
+                <input type="number" id="initialDeposit" min="0" step="0.01" placeholder="e.g. 1000">
+
+                <button type="submit" class="btn btn-primary">Create account</button>
+            </form>
+        </section>
+
+        <!-- ===== 3. Deposit / Withdraw ===== -->
+        <section id="transact" class="panel">
+            <h2>Deposit / Withdraw</h2>
+            <div class="form">
+                <label for="txnAccount">Account number</label>
+                <input type="text" id="txnAccount" maxlength="10" placeholder="10 digit account number">
+
+                <label for="txnAmount">Amount (Rs.)</label>
+                <input type="number" id="txnAmount" min="0.01" step="0.01" placeholder="e.g. 500">
+
+                <div class="btn-row">
+                    <button type="button" id="depositBtn" class="btn btn-deposit">Deposit</button>
+                    <button type="button" id="withdrawBtn" class="btn btn-withdraw">Withdraw</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 4. Check Balance ===== -->
+        <section id="balance" class="panel">
+            <h2>Check Balance</h2>
+            <div class="form">
+                <label for="balAccount">Account number</label>
+                <input type="text" id="balAccount" maxlength="10" placeholder="10 digit account number">
+                <button type="button" id="balanceBtn" class="btn btn-primary">Show balance</button>
+            </div>
+            <div id="balanceResult"></div>
+        </section>
+
+        <!-- ===== 5. Search Account ===== -->
+        <section id="search" class="panel">
+            <h2>Search Account</h2>
+            <div class="form">
+                <label for="keyword">Name, account number or phone</label>
+                <input type="text" id="keyword" placeholder="e.g. amit">
+                <button type="button" id="searchBtn" class="btn btn-primary">Search</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Account No.</th>
+                        <th>Holder</th>
+                        <th>Type</th>
+                        <th>Phone</th>
+                        <th class="num">Balance</th>
+                    </tr>
+                    </thead>
+                    <tbody id="searchBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== 6. Transaction History ===== -->
+        <section id="history" class="panel">
+            <h2>Transaction History</h2>
+            <div class="form">
+                <label for="histAccount">Account number</label>
+                <input type="text" id="histAccount" maxlength="10" placeholder="10 digit account number">
+                <button type="button" id="historyBtn" class="btn btn-primary">Show history</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Date and time</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th class="num">Amount</th>
+                        <th class="num">Balance after</th>
+                    </tr>
+                    </thead>
+                    <tbody id="historyBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== 7. Graphs (drawn with HTML5 Canvas) ===== -->
+        <section id="graphs" class="panel">
+            <div class="panel-head">
+                <h2>Graphs</h2>
+                <button type="button" id="graphRefreshBtn" class="btn btn-light">Refresh</button>
+            </div>
+            <div class="graph-grid">
+                <div>
+                    <h3>Balance of accounts (Bar chart)</h3>
+                    <canvas id="barChart" width="600" height="320"></canvas>
+                </div>
+                <div>
+                    <h3>Savings vs Current (Pie chart)</h3>
+                    <canvas id="pieChart" width="600" height="320"></canvas>
+                </div>
+                <div>
+                    <h3>Balance after each transaction (Line graph)</h3>
+                    <div class="form">
+                        <label for="graphAccount">Account number</label>
+                        <input type="text" id="graphAccount" maxlength="10" placeholder="10 digit account number">
+                        <button type="button" id="graphBtn" class="btn btn-primary">Draw graph</button>
+                    </div>
+                    <canvas id="lineChart" width="600" height="320"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
